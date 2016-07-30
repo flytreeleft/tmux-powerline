@@ -2,7 +2,7 @@
 # Originally stolen from http://unix.stackexchange.com/questions/41346/upload-download-speed-in-tmux-status-line
 
 run_segment() {
-        sleeptime="1"
+        sleeptime="0.5"
         if shell_is_osx; then
                 iface="en0"
                 type="⎆" # "☫" for wlan
@@ -27,7 +27,6 @@ run_segment() {
                 RXDIF=$(echo "scale=1;${RXDIF} / 1024" | bc)
                 RXDIF_UNIT="M/s"
         else
-                RXDIF_ECHO="⇊ ${RXDIF}K/s"
                 RXDIF_UNIT="K/s"
         fi
         if [ $TXDIF -gt 1024 ]; then
@@ -37,7 +36,7 @@ run_segment() {
                 TXDIF_UNIT="K/s"
         fi
 
-        #echo -e "${type} ${RXDIF_ECHO} ${TXDIF_ECHO}"
-        printf "${type} ⇊ %05.01f${RXDIF_UNIT} ⇈ %05.01f${TXDIF_UNIT}" ${RXDIF} ${TXDIF}
+	# NOTE: '%5.01' for fixed length always
+        printf "${type} ⇊ %5.01f${RXDIF_UNIT} ⇈ %5.01f${TXDIF_UNIT}" ${RXDIF} ${TXDIF}
         return 0
 }
